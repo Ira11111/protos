@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package auth;
 
-option go_package = "github.com/Ira11111/protos/gen/go/sso;sso";
+option go_package = "github.com/Ira11111/protos/v2/gen/go/sso;sso";
 
 service Auth {
   rpc Register (RegisterRequest) returns (RegisterResponse);
@@ -26,7 +26,17 @@ message LoginRequest {
 }
 
 message LoginResponse {
-  string token = 1;
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+message RefreshRequest {
+  string refresh_token = 1;
+}
+
+message RefreshResponse {
+  string access_token = 1;
+  string refresh_token = 2;
 }
 
 message IsAdminRequest {
