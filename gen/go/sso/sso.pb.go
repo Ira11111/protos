@@ -265,94 +265,6 @@ func (x *RefreshResponse) GetRefreshToken() string {
 	return ""
 }
 
-type IsAdminRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *IsAdminRequest) Reset() {
-	*x = IsAdminRequest{}
-	mi := &file_sso_sso_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *IsAdminRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*IsAdminRequest) ProtoMessage() {}
-
-func (x *IsAdminRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_sso_sso_proto_msgTypes[5]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use IsAdminRequest.ProtoReflect.Descriptor instead.
-func (*IsAdminRequest) Descriptor() ([]byte, []int) {
-	return file_sso_sso_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *IsAdminRequest) GetUserId() int64 {
-	if x != nil {
-		return x.UserId
-	}
-	return 0
-}
-
-type IsAdminResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	IsAdmin       bool                   `protobuf:"varint,1,opt,name=is_admin,json=isAdmin,proto3" json:"is_admin,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *IsAdminResponse) Reset() {
-	*x = IsAdminResponse{}
-	mi := &file_sso_sso_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *IsAdminResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*IsAdminResponse) ProtoMessage() {}
-
-func (x *IsAdminResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_sso_sso_proto_msgTypes[6]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use IsAdminResponse.ProtoReflect.Descriptor instead.
-func (*IsAdminResponse) Descriptor() ([]byte, []int) {
-	return file_sso_sso_proto_rawDescGZIP(), []int{6}
-}
-
-func (x *IsAdminResponse) GetIsAdmin() bool {
-	if x != nil {
-		return x.IsAdmin
-	}
-	return false
-}
-
 var File_sso_sso_proto protoreflect.FileDescriptor
 
 const file_sso_sso_proto_rawDesc = "" +
@@ -370,16 +282,11 @@ const file_sso_sso_proto_rawDesc = "" +
 	"\rrefresh_token\x18\x01 \x01(\tR\frefreshToken\"Y\n" +
 	"\x0fRefreshResponse\x12!\n" +
 	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\x12#\n" +
-	"\rrefresh_token\x18\x02 \x01(\tR\frefreshToken\")\n" +
-	"\x0eIsAdminRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\",\n" +
-	"\x0fIsAdminResponse\x12\x19\n" +
-	"\bis_admin\x18\x01 \x01(\bR\aisAdmin2\xe3\x01\n" +
+	"\rrefresh_token\x18\x02 \x01(\tR\frefreshToken2\xab\x01\n" +
 	"\x04Auth\x125\n" +
 	"\bRegister\x12\x11.auth.AuthRequest\x1a\x16.auth.RegisterResponse\x12/\n" +
-	"\x05Login\x12\x11.auth.AuthRequest\x1a\x13.auth.LoginResponse\x126\n" +
-	"\aIsAdmin\x12\x14.auth.IsAdminRequest\x1a\x15.auth.IsAdminResponse\x12;\n" +
-	"\fRefreshToken\x12\x14.auth.RefreshRequest\x1a\x15.auth.RefreshResponseB.Z,github.com/Ira11111/protos/v2/gen/go/sso;ssob\x06proto3"
+	"\x05Login\x12\x11.auth.AuthRequest\x1a\x13.auth.LoginResponse\x12;\n" +
+	"\fRefreshToken\x12\x14.auth.RefreshRequest\x1a\x15.auth.RefreshResponseB.Z,github.com/Ira11111/protos/v3/gen/go/sso;ssob\x06proto3"
 
 var (
 	file_sso_sso_proto_rawDescOnce sync.Once
@@ -393,27 +300,23 @@ func file_sso_sso_proto_rawDescGZIP() []byte {
 	return file_sso_sso_proto_rawDescData
 }
 
-var file_sso_sso_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_sso_sso_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_sso_sso_proto_goTypes = []any{
 	(*AuthRequest)(nil),      // 0: auth.AuthRequest
 	(*RegisterResponse)(nil), // 1: auth.RegisterResponse
 	(*LoginResponse)(nil),    // 2: auth.LoginResponse
 	(*RefreshRequest)(nil),   // 3: auth.RefreshRequest
 	(*RefreshResponse)(nil),  // 4: auth.RefreshResponse
-	(*IsAdminRequest)(nil),   // 5: auth.IsAdminRequest
-	(*IsAdminResponse)(nil),  // 6: auth.IsAdminResponse
 }
 var file_sso_sso_proto_depIdxs = []int32{
 	0, // 0: auth.Auth.Register:input_type -> auth.AuthRequest
 	0, // 1: auth.Auth.Login:input_type -> auth.AuthRequest
-	5, // 2: auth.Auth.IsAdmin:input_type -> auth.IsAdminRequest
-	3, // 3: auth.Auth.RefreshToken:input_type -> auth.RefreshRequest
-	1, // 4: auth.Auth.Register:output_type -> auth.RegisterResponse
-	2, // 5: auth.Auth.Login:output_type -> auth.LoginResponse
-	6, // 6: auth.Auth.IsAdmin:output_type -> auth.IsAdminResponse
-	4, // 7: auth.Auth.RefreshToken:output_type -> auth.RefreshResponse
-	4, // [4:8] is the sub-list for method output_type
-	0, // [0:4] is the sub-list for method input_type
+	3, // 2: auth.Auth.RefreshToken:input_type -> auth.RefreshRequest
+	1, // 3: auth.Auth.Register:output_type -> auth.RegisterResponse
+	2, // 4: auth.Auth.Login:output_type -> auth.LoginResponse
+	4, // 5: auth.Auth.RefreshToken:output_type -> auth.RefreshResponse
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -430,7 +333,7 @@ func file_sso_sso_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_sso_sso_proto_rawDesc), len(file_sso_sso_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

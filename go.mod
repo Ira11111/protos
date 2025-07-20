@@ -1,3 +1,3 @@
-module "github.com/Ira11111/protos/v2"
+module "github.com/Ira11111/protos/v3"
 
 go 1.23
