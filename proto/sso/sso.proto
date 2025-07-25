@@ -36,8 +36,7 @@ message RefreshResponse {
 }
 
 message AddRoleRequest {
-  int64 user_id = 1;
-  string roles = 2;
+  string role = 1;
 }
 
 message AddRoleResponse {
