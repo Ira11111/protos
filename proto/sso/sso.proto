@@ -2,17 +2,19 @@ syntax = "proto3";
 
 package auth;
 
-option go_package = "github.com/Ira11111/protos/v3/gen/go/sso;sso";
+option go_package = "github.com/Ira11111/protos/v4/gen/go/sso;sso";
 
 service Auth {
   rpc Register (AuthRequest) returns (RegisterResponse);
   rpc Login (AuthRequest) returns (LoginResponse);
   rpc RefreshToken(RefreshRequest) returns (RefreshResponse);
+  rpc AddRole(AddRoleRequest) returns (AddRoleResponse);
 }
 
 message AuthRequest {
   string email = 1;
   string password = 2;
+  string role = 3;
 }
 
 message RegisterResponse {
@@ -31,4 +33,14 @@ message RefreshRequest {
 message RefreshResponse {
   string access_token = 1;
   string refresh_token = 2;
+}
+
+message AddRoleRequest {
+  int64 user_id = 1;
+  repeated string roles = 2;
+}
+
+message AddRoleResponse {
+  int64 user_id = 1;
+  repeated string roles = 2;
 }
