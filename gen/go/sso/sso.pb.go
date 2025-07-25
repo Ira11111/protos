@@ -276,7 +276,7 @@ func (x *RefreshResponse) GetRefreshToken() string {
 type AddRoleRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Roles         []string               `protobuf:"bytes,2,rep,name=roles,proto3" json:"roles,omitempty"`
+	Roles         string                 `protobuf:"bytes,2,opt,name=roles,proto3" json:"roles,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -318,17 +318,17 @@ func (x *AddRoleRequest) GetUserId() int64 {
 	return 0
 }
 
-func (x *AddRoleRequest) GetRoles() []string {
+func (x *AddRoleRequest) GetRoles() string {
 	if x != nil {
 		return x.Roles
 	}
-	return nil
+	return ""
 }
 
 type AddRoleResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Results       map[string]string      `protobuf:"bytes,2,rep,name=results,proto3" json:"results,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Role          string                 `protobuf:"bytes,2,opt,name=role,proto3" json:"role,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -370,11 +370,11 @@ func (x *AddRoleResponse) GetUserId() int64 {
 	return 0
 }
 
-func (x *AddRoleResponse) GetResults() map[string]string {
+func (x *AddRoleResponse) GetRole() string {
 	if x != nil {
-		return x.Results
+		return x.Role
 	}
-	return nil
+	return ""
 }
 
 var File_sso_sso_proto protoreflect.FileDescriptor
@@ -398,13 +398,10 @@ const file_sso_sso_proto_rawDesc = "" +
 	"\rrefresh_token\x18\x02 \x01(\tR\frefreshToken\"?\n" +
 	"\x0eAddRoleRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x14\n" +
-	"\x05roles\x18\x02 \x03(\tR\x05roles\"\xa4\x01\n" +
+	"\x05roles\x18\x02 \x01(\tR\x05roles\">\n" +
 	"\x0fAddRoleResponse\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12<\n" +
-	"\aresults\x18\x02 \x03(\v2\".auth.AddRoleResponse.ResultsEntryR\aresults\x1a:\n" +
-	"\fResultsEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x012\xe3\x01\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x12\n" +
+	"\x04role\x18\x02 \x01(\tR\x04role2\xe3\x01\n" +
 	"\x04Auth\x125\n" +
 	"\bRegister\x12\x11.auth.AuthRequest\x1a\x16.auth.RegisterResponse\x12/\n" +
 	"\x05Login\x12\x11.auth.AuthRequest\x1a\x13.auth.LoginResponse\x12;\n" +
@@ -423,7 +420,7 @@ func file_sso_sso_proto_rawDescGZIP() []byte {
 	return file_sso_sso_proto_rawDescData
 }
 
-var file_sso_sso_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_sso_sso_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_sso_sso_proto_goTypes = []any{
 	(*AuthRequest)(nil),      // 0: auth.AuthRequest
 	(*RegisterResponse)(nil), // 1: auth.RegisterResponse
@@ -432,23 +429,21 @@ var file_sso_sso_proto_goTypes = []any{
 	(*RefreshResponse)(nil),  // 4: auth.RefreshResponse
 	(*AddRoleRequest)(nil),   // 5: auth.AddRoleRequest
 	(*AddRoleResponse)(nil),  // 6: auth.AddRoleResponse
-	nil,                      // 7: auth.AddRoleResponse.ResultsEntry
 }
 var file_sso_sso_proto_depIdxs = []int32{
-	7, // 0: auth.AddRoleResponse.results:type_name -> auth.AddRoleResponse.ResultsEntry
-	0, // 1: auth.Auth.Register:input_type -> auth.AuthRequest
-	0, // 2: auth.Auth.Login:input_type -> auth.AuthRequest
-	3, // 3: auth.Auth.RefreshToken:input_type -> auth.RefreshRequest
-	5, // 4: auth.Auth.AddRole:input_type -> auth.AddRoleRequest
-	1, // 5: auth.Auth.Register:output_type -> auth.RegisterResponse
-	2, // 6: auth.Auth.Login:output_type -> auth.LoginResponse
-	4, // 7: auth.Auth.RefreshToken:output_type -> auth.RefreshResponse
-	6, // 8: auth.Auth.AddRole:output_type -> auth.AddRoleResponse
-	5, // [5:9] is the sub-list for method output_type
-	1, // [1:5] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0, // 0: auth.Auth.Register:input_type -> auth.AuthRequest
+	0, // 1: auth.Auth.Login:input_type -> auth.AuthRequest
+	3, // 2: auth.Auth.RefreshToken:input_type -> auth.RefreshRequest
+	5, // 3: auth.Auth.AddRole:input_type -> auth.AddRoleRequest
+	1, // 4: auth.Auth.Register:output_type -> auth.RegisterResponse
+	2, // 5: auth.Auth.Login:output_type -> auth.LoginResponse
+	4, // 6: auth.Auth.RefreshToken:output_type -> auth.RefreshResponse
+	6, // 7: auth.Auth.AddRole:output_type -> auth.AddRoleResponse
+	4, // [4:8] is the sub-list for method output_type
+	0, // [0:4] is the sub-list for method input_type
+	0, // [0:0] is the sub-list for extension type_name
+	0, // [0:0] is the sub-list for extension extendee
+	0, // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_sso_sso_proto_init() }
@@ -462,7 +457,7 @@ func file_sso_sso_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_sso_sso_proto_rawDesc), len(file_sso_sso_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

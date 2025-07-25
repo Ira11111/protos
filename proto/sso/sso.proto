@@ -37,10 +37,10 @@ message RefreshResponse {
 
 message AddRoleRequest {
   int64 user_id = 1;
-  repeated string roles = 2;
+  string roles = 2;
 }
 
 message AddRoleResponse {
   int64 user_id = 1;
-  map<string, string> results = 2;
+  string role = 2;
 }
