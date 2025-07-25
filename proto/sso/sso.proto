@@ -42,5 +42,5 @@ message AddRoleRequest {
 
 message AddRoleResponse {
   int64 user_id = 1;
-  repeated string roles = 2;
+  map<string, string> results = 2;
 }
