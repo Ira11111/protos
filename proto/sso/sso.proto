@@ -40,6 +40,5 @@ message AddRoleRequest {
 }
 
 message AddRoleResponse {
-  int64 user_id = 1;
-  string role = 2;
+  repeated string roles = 1;
 }

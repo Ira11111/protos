@@ -319,8 +319,7 @@ func (x *AddRoleRequest) GetRole() string {
 
 type AddRoleResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Role          string                 `protobuf:"bytes,2,opt,name=role,proto3" json:"role,omitempty"`
+	Roles         []string               `protobuf:"bytes,1,rep,name=roles,proto3" json:"roles,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -355,18 +354,11 @@ func (*AddRoleResponse) Descriptor() ([]byte, []int) {
 	return file_sso_sso_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *AddRoleResponse) GetUserId() int64 {
+func (x *AddRoleResponse) GetRoles() []string {
 	if x != nil {
-		return x.UserId
+		return x.Roles
 	}
-	return 0
-}
-
-func (x *AddRoleResponse) GetRole() string {
-	if x != nil {
-		return x.Role
-	}
-	return ""
+	return nil
 }
 
 var File_sso_sso_proto protoreflect.FileDescriptor
@@ -389,10 +381,9 @@ const file_sso_sso_proto_rawDesc = "" +
 	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\x12#\n" +
 	"\rrefresh_token\x18\x02 \x01(\tR\frefreshToken\"$\n" +
 	"\x0eAddRoleRequest\x12\x12\n" +
-	"\x04role\x18\x01 \x01(\tR\x04role\">\n" +
-	"\x0fAddRoleResponse\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x12\n" +
-	"\x04role\x18\x02 \x01(\tR\x04role2\xe3\x01\n" +
+	"\x04role\x18\x01 \x01(\tR\x04role\"'\n" +
+	"\x0fAddRoleResponse\x12\x14\n" +
+	"\x05roles\x18\x01 \x03(\tR\x05roles2\xe3\x01\n" +
 	"\x04Auth\x125\n" +
 	"\bRegister\x12\x11.auth.AuthRequest\x1a\x16.auth.RegisterResponse\x12/\n" +
 	"\x05Login\x12\x11.auth.AuthRequest\x1a\x13.auth.LoginResponse\x12;\n" +
