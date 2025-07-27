@@ -5,16 +5,21 @@ package auth;
 option go_package = "github.com/Ira11111/protos/v4/gen/go/sso;sso";
 
 service Auth {
-  rpc Register (AuthRequest) returns (RegisterResponse);
-  rpc Login (AuthRequest) returns (LoginResponse);
+  rpc Register (RegisterRequest) returns (RegisterResponse);
+  rpc Login (LoginRequest) returns (LoginResponse);
   rpc RefreshToken(RefreshRequest) returns (RefreshResponse);
   rpc AddRole(AddRoleRequest) returns (AddRoleResponse);
 }
 
-message AuthRequest {
+message RegisterRequest {
   string email = 1;
   string password = 2;
   string role = 3;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
 }
 
 message RegisterResponse {
