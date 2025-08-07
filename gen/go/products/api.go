@@ -124,9 +124,15 @@ type PostWarehouseJSONRequestBody = WarehouseCreate
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
+	// delete category
+	// (DELETE /categories)
+	DeleteCategories(c *gin.Context)
 	// Get category tree
 	// (GET /categories)
 	GetCategories(c *gin.Context)
+	// create new category
+	// (POST /categories)
+	PostCategories(c *gin.Context)
 	// List all products
 	// (GET /products)
 	GetProducts(c *gin.Context, params GetProductsParams)
@@ -174,6 +180,21 @@ type ServerInterfaceWrapper struct {
 
 type MiddlewareFunc func(c *gin.Context)
 
+// DeleteCategories operation middleware
+func (siw *ServerInterfaceWrapper) DeleteCategories(c *gin.Context) {
+
+	c.Set(BearerAuthScopes, []string{})
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.DeleteCategories(c)
+}
+
 // GetCategories operation middleware
 func (siw *ServerInterfaceWrapper) GetCategories(c *gin.Context) {
 
@@ -185,6 +206,21 @@ func (siw *ServerInterfaceWrapper) GetCategories(c *gin.Context) {
 	}
 
 	siw.Handler.GetCategories(c)
+}
+
+// PostCategories operation middleware
+func (siw *ServerInterfaceWrapper) PostCategories(c *gin.Context) {
+
+	c.Set(BearerAuthScopes, []string{})
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.PostCategories(c)
 }
 
 // GetProducts operation middleware
@@ -516,7 +552,9 @@ func RegisterHandlersWithOptions(router gin.IRouter, si ServerInterface, options
 		ErrorHandler:       errorHandler,
 	}
 
+	router.DELETE(options.BaseURL+"/categories", wrapper.DeleteCategories)
 	router.GET(options.BaseURL+"/categories", wrapper.GetCategories)
+	router.POST(options.BaseURL+"/categories", wrapper.PostCategories)
 	router.GET(options.BaseURL+"/products", wrapper.GetProducts)
 	router.POST(options.BaseURL+"/products", wrapper.PostProducts)
 	router.DELETE(options.BaseURL+"/products/:id", wrapper.DeleteProductsId)

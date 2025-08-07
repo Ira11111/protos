@@ -203,7 +203,7 @@ paths:
     post:
       summary: Create new product
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       requestBody:
         required: true
         content:
@@ -238,7 +238,7 @@ paths:
     put:
       summary: Update product
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       parameters:
         - $ref: "#/components/parameters/IdParam"
       requestBody:
@@ -258,7 +258,7 @@ paths:
     delete:
       summary: Delete product
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       parameters:
         - $ref: "#/components/parameters/IdParam"
       responses:
@@ -282,6 +282,33 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Category"
+    post:
+      summary: create new category
+      security:
+        - bearerAuth: [ ]
+      responses:
+        201:
+          description: Category created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+        401:
+          $ref: "#/components/responses/Unauthorized"
+        400:
+          $ref: "#/components/responses/ValidationFailed"
+
+    delete:
+      summary: delete category
+      security:
+        - bearerAuth: [ ]
+      responses:
+        204:
+          description: Category deleted
+        401:
+          $ref: "#/components/responses/Unauthorized"
+        400:
+          $ref: "#/components/responses/ValidationFailed"
 
   # ========================
   # SELLERS ENDPOINTS
@@ -320,7 +347,7 @@ paths:
     put:
       summary: Edit Seller
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       parameters:
         - $ref: "#/components/parameters/IdParam"
       responses:
@@ -337,7 +364,7 @@ paths:
     delete:
       summary: Delete seller
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       parameters:
         - $ref: "#/components/parameters/IdParam"
       responses:
@@ -397,7 +424,7 @@ paths:
     post:
       summary: get products list in warehouse
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       parameters:
         - $ref: "#/components/parameters/IdParam"
         - $ref: "#/components/parameters/LimitParam"
