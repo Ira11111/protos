@@ -84,13 +84,13 @@ type WarehouseCreate struct {
 }
 
 // IdParam defines model for IdParam.
-type IdParam = int
+type IdParam = int64
 
 // LimitParam defines model for LimitParam.
-type LimitParam = int
+type LimitParam = int64
 
 // OffsetParam defines model for OffsetParam.
-type OffsetParam = int
+type OffsetParam = int64
 
 // Unauthorized defines model for Unauthorized.
 type Unauthorized = ErrorResponse

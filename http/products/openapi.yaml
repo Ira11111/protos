@@ -141,12 +141,14 @@ components:
       in: query
       schema:
         type: integer
+        format: int64
         default: 20
     OffsetParam:
       name: offset
       in: query
       schema:
         type: integer
+        format: int64
         default: 0
     IdParam:
       name: id
@@ -154,6 +156,7 @@ components:
       required: true
       schema:
         type: integer
+        format: int64
 
   responses:
     ValidationFailed:
