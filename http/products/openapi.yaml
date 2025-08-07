@@ -286,6 +286,12 @@ paths:
       summary: create new category
       security:
         - bearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Category"
       responses:
         201:
           description: Category created
@@ -298,10 +304,14 @@ paths:
         400:
           $ref: "#/components/responses/ValidationFailed"
 
+
+  /categories/{id}:
     delete:
       summary: delete category
       security:
         - bearerAuth: [ ]
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
       responses:
         204:
           description: Category deleted
