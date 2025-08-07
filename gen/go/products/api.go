@@ -40,13 +40,14 @@ type ProductCreate struct {
 
 // ProductResponse defines model for ProductResponse.
 type ProductResponse struct {
-	CategoryId  *int                  `json:"category_id,omitempty"`
-	Description *string               `json:"description,omitempty"`
-	Id          *int64                `json:"id,omitempty"`
-	Name        *string               `json:"name,omitempty"`
-	Photos      *[]openapi_types.File `json:"photos,omitempty"`
-	Price       *float32              `json:"price,omitempty"`
-	Seller      *SellerShort          `json:"seller,omitempty"`
+	CategoryId  *int         `json:"category_id,omitempty"`
+	Description *string      `json:"description,omitempty"`
+	Id          *int64       `json:"id,omitempty"`
+	Name        *string      `json:"name,omitempty"`
+	PhotoUrls   *[]string    `json:"photo_urls,omitempty"`
+	Photos      *interface{} `json:"photos"`
+	Price       *float32     `json:"price,omitempty"`
+	Seller      *SellerShort `json:"seller,omitempty"`
 }
 
 // ProductWarehouse defines model for ProductWarehouse.

@@ -71,6 +71,12 @@ components:
               type: integer
               format: int64
               example: 1
+            photos:
+              nullable: true
+            photo_urls:
+              type: array
+              items:
+                type: string
             seller:
               $ref: "#/components/schemas/SellerShort"
 
