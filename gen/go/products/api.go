@@ -18,7 +18,7 @@ const (
 
 // Category defines model for Category.
 type Category struct {
-	Id   *int64  `json:"id,omitempty"`
+	Id   *int64  `json:"id"`
 	Name *string `json:"name,omitempty"`
 }
 
