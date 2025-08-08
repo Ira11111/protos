@@ -31,23 +31,23 @@ type ErrorResponse struct {
 
 // ProductCreate defines model for ProductCreate.
 type ProductCreate struct {
-	CategoryId  *int                  `json:"category_id,omitempty"`
-	Description *string               `json:"description,omitempty"`
-	Name        *string               `json:"name,omitempty"`
-	Photos      *[]openapi_types.File `json:"photos,omitempty"`
-	Price       *float32              `json:"price,omitempty"`
+	CategoriesId *[]int64              `json:"categories_id,omitempty"`
+	Description  *string               `json:"description,omitempty"`
+	Name         *string               `json:"name,omitempty"`
+	Photos       *[]openapi_types.File `json:"photos,omitempty"`
+	Price        *float32              `json:"price,omitempty"`
 }
 
 // ProductResponse defines model for ProductResponse.
 type ProductResponse struct {
-	CategoryId  *int         `json:"category_id,omitempty"`
-	Description *string      `json:"description,omitempty"`
-	Id          *int64       `json:"id,omitempty"`
-	Name        *string      `json:"name,omitempty"`
-	PhotoUrls   *[]string    `json:"photo_urls,omitempty"`
-	Photos      *interface{} `json:"photos"`
-	Price       *float32     `json:"price,omitempty"`
-	Seller      *SellerShort `json:"seller,omitempty"`
+	CategoriesId *[]int64     `json:"categories_id,omitempty"`
+	Description  *string      `json:"description,omitempty"`
+	Id           *int64       `json:"id,omitempty"`
+	Name         *string      `json:"name,omitempty"`
+	PhotoUrls    *[]string    `json:"photo_urls,omitempty"`
+	Photos       *interface{} `json:"photos"`
+	Price        *float32     `json:"price,omitempty"`
+	Seller       *SellerShort `json:"seller,omitempty"`
 }
 
 // ProductWarehouse defines model for ProductWarehouse.

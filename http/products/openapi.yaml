@@ -53,9 +53,11 @@ components:
           format: float
           minimum: 0
           example: 999.99
-        category_id:
-          type: integer
-          example: 1
+        categories_id:
+          type: array
+          items:
+            type: integer
+            format: int64
         photos:
           type: array
           items:
