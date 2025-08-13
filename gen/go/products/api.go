@@ -99,14 +99,20 @@ type Unauthorized = ErrorResponse
 // ValidationFailed defines model for ValidationFailed.
 type ValidationFailed = ErrorResponse
 
+// GetCategoriesIdProductsParams defines parameters for GetCategoriesIdProducts.
+type GetCategoriesIdProductsParams struct {
+	Limit  *LimitParam  `form:"limit,omitempty" json:"limit,omitempty"`
+	Offset *OffsetParam `form:"offset,omitempty" json:"offset,omitempty"`
+}
+
 // GetProductsParams defines parameters for GetProducts.
 type GetProductsParams struct {
 	Limit  *LimitParam  `form:"limit,omitempty" json:"limit,omitempty"`
 	Offset *OffsetParam `form:"offset,omitempty" json:"offset,omitempty"`
 }
 
-// PostWarehouseIdProductsParams defines parameters for PostWarehouseIdProducts.
-type PostWarehouseIdProductsParams struct {
+// GetWarehouseIdProductsParams defines parameters for GetWarehouseIdProducts.
+type GetWarehouseIdProductsParams struct {
 	Limit  *LimitParam  `form:"limit,omitempty" json:"limit,omitempty"`
 	Offset *OffsetParam `form:"offset,omitempty" json:"offset,omitempty"`
 }
@@ -137,6 +143,9 @@ type ServerInterface interface {
 	// delete category
 	// (DELETE /categories/{id})
 	DeleteCategoriesId(c *gin.Context, id IdParam)
+	// get products by category
+	// (GET /categories/{id}/products)
+	GetCategoriesIdProducts(c *gin.Context, id IdParam, params GetCategoriesIdProductsParams)
 	// List all products
 	// (GET /products)
 	GetProducts(c *gin.Context, params GetProductsParams)
@@ -168,8 +177,8 @@ type ServerInterface interface {
 	// (POST /warehouse)
 	PostWarehouse(c *gin.Context)
 	// get products list in warehouse
-	// (POST /warehouse/{id}/products)
-	PostWarehouseIdProducts(c *gin.Context, id IdParam, params PostWarehouseIdProductsParams)
+	// (GET /warehouse/{id}/products)
+	GetWarehouseIdProducts(c *gin.Context, id IdParam, params GetWarehouseIdProductsParams)
 	// Get warehouse by ID
 	// (GET /warehouses/{id})
 	GetWarehousesId(c *gin.Context, id IdParam)
@@ -236,6 +245,51 @@ func (siw *ServerInterfaceWrapper) DeleteCategoriesId(c *gin.Context) {
 	}
 
 	siw.Handler.DeleteCategoriesId(c, id)
+}
+
+// GetCategoriesIdProducts operation middleware
+func (siw *ServerInterfaceWrapper) GetCategoriesIdProducts(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id IdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	c.Set(BearerAuthScopes, []string{})
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetCategoriesIdProductsParams
+
+	// ------------- Optional query parameter "limit" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "limit", c.Request.URL.Query(), &params.Limit)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter limit: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "offset" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "offset", c.Request.URL.Query(), &params.Offset)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter offset: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetCategoriesIdProducts(c, id, params)
 }
 
 // GetProducts operation middleware
@@ -469,8 +523,8 @@ func (siw *ServerInterfaceWrapper) PostWarehouse(c *gin.Context) {
 	siw.Handler.PostWarehouse(c)
 }
 
-// PostWarehouseIdProducts operation middleware
-func (siw *ServerInterfaceWrapper) PostWarehouseIdProducts(c *gin.Context) {
+// GetWarehouseIdProducts operation middleware
+func (siw *ServerInterfaceWrapper) GetWarehouseIdProducts(c *gin.Context) {
 
 	var err error
 
@@ -486,7 +540,7 @@ func (siw *ServerInterfaceWrapper) PostWarehouseIdProducts(c *gin.Context) {
 	c.Set(BearerAuthScopes, []string{})
 
 	// Parameter object where we will unmarshal all parameters from the context
-	var params PostWarehouseIdProductsParams
+	var params GetWarehouseIdProductsParams
 
 	// ------------- Optional query parameter "limit" -------------
 
@@ -511,7 +565,7 @@ func (siw *ServerInterfaceWrapper) PostWarehouseIdProducts(c *gin.Context) {
 		}
 	}
 
-	siw.Handler.PostWarehouseIdProducts(c, id, params)
+	siw.Handler.GetWarehouseIdProducts(c, id, params)
 }
 
 // GetWarehousesId operation middleware
@@ -570,6 +624,7 @@ func RegisterHandlersWithOptions(router gin.IRouter, si ServerInterface, options
 	router.GET(options.BaseURL+"/categories", wrapper.GetCategories)
 	router.POST(options.BaseURL+"/categories", wrapper.PostCategories)
 	router.DELETE(options.BaseURL+"/categories/:id", wrapper.DeleteCategoriesId)
+	router.GET(options.BaseURL+"/categories/:id/products", wrapper.GetCategoriesIdProducts)
 	router.GET(options.BaseURL+"/products", wrapper.GetProducts)
 	router.POST(options.BaseURL+"/products", wrapper.PostProducts)
 	router.DELETE(options.BaseURL+"/products/:id", wrapper.DeleteProductsId)
@@ -580,6 +635,6 @@ func RegisterHandlersWithOptions(router gin.IRouter, si ServerInterface, options
 	router.GET(options.BaseURL+"/sellers/:id", wrapper.GetSellersId)
 	router.PUT(options.BaseURL+"/sellers/:id", wrapper.PutSellersId)
 	router.POST(options.BaseURL+"/warehouse", wrapper.PostWarehouse)
-	router.POST(options.BaseURL+"/warehouse/:id/products", wrapper.PostWarehouseIdProducts)
+	router.GET(options.BaseURL+"/warehouse/:id/products", wrapper.GetWarehouseIdProducts)
 	router.GET(options.BaseURL+"/warehouses/:id", wrapper.GetWarehousesId)
 }

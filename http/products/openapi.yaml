@@ -332,6 +332,32 @@ paths:
         400:
           $ref: "#/components/responses/ValidationFailed"
 
+  /categories/{id}/products:
+    get:
+      summary: get products by category
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - $ref: "#/components/parameters/IdParam"
+        - $ref: "#/components/parameters/LimitParam"
+        - $ref: "#/components/parameters/OffsetParam"
+      responses:
+        401:
+          $ref: "#/components/responses/Unauthorized"
+        400:
+          $ref: "#/components/responses/ValidationFailed"
+        200:
+          description: Product list in warehouse
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProductResponse"
+
+
+
+
   # ========================
   # SELLERS ENDPOINTS
   # ========================
@@ -443,7 +469,7 @@ paths:
                   $ref: "#/components/schemas/Warehouse"
 
   /warehouse/{id}/products:
-    post:
+    get:
       summary: get products list in warehouse
       security:
         - bearerAuth: [ ]
