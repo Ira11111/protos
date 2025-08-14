@@ -426,7 +426,7 @@ paths:
   # ========================
   # WAREHOUSES ENDPOINTS
   # ========================
-  /warehouse:
+  /warehouses:
     get:
       security:
         - bearerAuth: [ ]
@@ -483,7 +483,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Warehouse"
 
-  /warehouse/{id}/products:
+  /warehouses/{id}/products:
     get:
       summary: get products list in warehouse
       security:

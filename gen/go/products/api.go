@@ -111,8 +111,8 @@ type GetProductsParams struct {
 	Offset *OffsetParam `form:"offset,omitempty" json:"offset,omitempty"`
 }
 
-// GetWarehouseIdProductsParams defines parameters for GetWarehouseIdProducts.
-type GetWarehouseIdProductsParams struct {
+// GetWarehousesIdProductsParams defines parameters for GetWarehousesIdProducts.
+type GetWarehousesIdProductsParams struct {
 	Limit  *LimitParam  `form:"limit,omitempty" json:"limit,omitempty"`
 	Offset *OffsetParam `form:"offset,omitempty" json:"offset,omitempty"`
 }
@@ -129,8 +129,8 @@ type PutProductsIdJSONRequestBody = ProductCreate
 // PostSellersJSONRequestBody defines body for PostSellers for application/json ContentType.
 type PostSellersJSONRequestBody = SellerFull
 
-// PostWarehouseJSONRequestBody defines body for PostWarehouse for application/json ContentType.
-type PostWarehouseJSONRequestBody = WarehouseCreate
+// PostWarehousesJSONRequestBody defines body for PostWarehouses for application/json ContentType.
+type PostWarehousesJSONRequestBody = WarehouseCreate
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
@@ -174,17 +174,17 @@ type ServerInterface interface {
 	// (PUT /sellers/{id})
 	PutSellersId(c *gin.Context, id IdParam)
 
-	// (GET /warehouse)
-	GetWarehouse(c *gin.Context)
+	// (GET /warehouses)
+	GetWarehouses(c *gin.Context)
 
-	// (POST /warehouse)
-	PostWarehouse(c *gin.Context)
-	// get products list in warehouse
-	// (GET /warehouse/{id}/products)
-	GetWarehouseIdProducts(c *gin.Context, id IdParam, params GetWarehouseIdProductsParams)
+	// (POST /warehouses)
+	PostWarehouses(c *gin.Context)
 	// Get warehouse by ID
 	// (GET /warehouses/{id})
 	GetWarehousesId(c *gin.Context, id IdParam)
+	// get products list in warehouse
+	// (GET /warehouses/{id}/products)
+	GetWarehousesIdProducts(c *gin.Context, id IdParam, params GetWarehousesIdProductsParams)
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -511,8 +511,8 @@ func (siw *ServerInterfaceWrapper) PutSellersId(c *gin.Context) {
 	siw.Handler.PutSellersId(c, id)
 }
 
-// GetWarehouse operation middleware
-func (siw *ServerInterfaceWrapper) GetWarehouse(c *gin.Context) {
+// GetWarehouses operation middleware
+func (siw *ServerInterfaceWrapper) GetWarehouses(c *gin.Context) {
 
 	c.Set(BearerAuthScopes, []string{})
 
@@ -523,11 +523,11 @@ func (siw *ServerInterfaceWrapper) GetWarehouse(c *gin.Context) {
 		}
 	}
 
-	siw.Handler.GetWarehouse(c)
+	siw.Handler.GetWarehouses(c)
 }
 
-// PostWarehouse operation middleware
-func (siw *ServerInterfaceWrapper) PostWarehouse(c *gin.Context) {
+// PostWarehouses operation middleware
+func (siw *ServerInterfaceWrapper) PostWarehouses(c *gin.Context) {
 
 	c.Set(BearerAuthScopes, []string{})
 
@@ -538,52 +538,7 @@ func (siw *ServerInterfaceWrapper) PostWarehouse(c *gin.Context) {
 		}
 	}
 
-	siw.Handler.PostWarehouse(c)
-}
-
-// GetWarehouseIdProducts operation middleware
-func (siw *ServerInterfaceWrapper) GetWarehouseIdProducts(c *gin.Context) {
-
-	var err error
-
-	// ------------- Path parameter "id" -------------
-	var id IdParam
-
-	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
-	if err != nil {
-		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
-		return
-	}
-
-	c.Set(BearerAuthScopes, []string{})
-
-	// Parameter object where we will unmarshal all parameters from the context
-	var params GetWarehouseIdProductsParams
-
-	// ------------- Optional query parameter "limit" -------------
-
-	err = runtime.BindQueryParameter("form", true, false, "limit", c.Request.URL.Query(), &params.Limit)
-	if err != nil {
-		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter limit: %w", err), http.StatusBadRequest)
-		return
-	}
-
-	// ------------- Optional query parameter "offset" -------------
-
-	err = runtime.BindQueryParameter("form", true, false, "offset", c.Request.URL.Query(), &params.Offset)
-	if err != nil {
-		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter offset: %w", err), http.StatusBadRequest)
-		return
-	}
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		middleware(c)
-		if c.IsAborted() {
-			return
-		}
-	}
-
-	siw.Handler.GetWarehouseIdProducts(c, id, params)
+	siw.Handler.PostWarehouses(c)
 }
 
 // GetWarehousesId operation middleware
@@ -610,6 +565,51 @@ func (siw *ServerInterfaceWrapper) GetWarehousesId(c *gin.Context) {
 	}
 
 	siw.Handler.GetWarehousesId(c, id)
+}
+
+// GetWarehousesIdProducts operation middleware
+func (siw *ServerInterfaceWrapper) GetWarehousesIdProducts(c *gin.Context) {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id IdParam
+
+	err = runtime.BindStyledParameterWithOptions("simple", "id", c.Param("id"), &id, runtime.BindStyledParameterOptions{Explode: false, Required: true})
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter id: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	c.Set(BearerAuthScopes, []string{})
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetWarehousesIdProductsParams
+
+	// ------------- Optional query parameter "limit" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "limit", c.Request.URL.Query(), &params.Limit)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter limit: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	// ------------- Optional query parameter "offset" -------------
+
+	err = runtime.BindQueryParameter("form", true, false, "offset", c.Request.URL.Query(), &params.Offset)
+	if err != nil {
+		siw.ErrorHandler(c, fmt.Errorf("Invalid format for parameter offset: %w", err), http.StatusBadRequest)
+		return
+	}
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetWarehousesIdProducts(c, id, params)
 }
 
 // GinServerOptions provides options for the Gin server.
@@ -652,8 +652,8 @@ func RegisterHandlersWithOptions(router gin.IRouter, si ServerInterface, options
 	router.DELETE(options.BaseURL+"/sellers/:id", wrapper.DeleteSellersId)
 	router.GET(options.BaseURL+"/sellers/:id", wrapper.GetSellersId)
 	router.PUT(options.BaseURL+"/sellers/:id", wrapper.PutSellersId)
-	router.GET(options.BaseURL+"/warehouse", wrapper.GetWarehouse)
-	router.POST(options.BaseURL+"/warehouse", wrapper.PostWarehouse)
-	router.GET(options.BaseURL+"/warehouse/:id/products", wrapper.GetWarehouseIdProducts)
+	router.GET(options.BaseURL+"/warehouses", wrapper.GetWarehouses)
+	router.POST(options.BaseURL+"/warehouses", wrapper.PostWarehouses)
 	router.GET(options.BaseURL+"/warehouses/:id", wrapper.GetWarehousesId)
+	router.GET(options.BaseURL+"/warehouses/:id/products", wrapper.GetWarehousesIdProducts)
 }
