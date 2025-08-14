@@ -174,6 +174,9 @@ type ServerInterface interface {
 	// (PUT /sellers/{id})
 	PutSellersId(c *gin.Context, id IdParam)
 
+	// (GET /warehouse)
+	GetWarehouse(c *gin.Context)
+
 	// (POST /warehouse)
 	PostWarehouse(c *gin.Context)
 	// get products list in warehouse
@@ -508,6 +511,21 @@ func (siw *ServerInterfaceWrapper) PutSellersId(c *gin.Context) {
 	siw.Handler.PutSellersId(c, id)
 }
 
+// GetWarehouse operation middleware
+func (siw *ServerInterfaceWrapper) GetWarehouse(c *gin.Context) {
+
+	c.Set(BearerAuthScopes, []string{})
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetWarehouse(c)
+}
+
 // PostWarehouse operation middleware
 func (siw *ServerInterfaceWrapper) PostWarehouse(c *gin.Context) {
 
@@ -634,6 +652,7 @@ func RegisterHandlersWithOptions(router gin.IRouter, si ServerInterface, options
 	router.DELETE(options.BaseURL+"/sellers/:id", wrapper.DeleteSellersId)
 	router.GET(options.BaseURL+"/sellers/:id", wrapper.GetSellersId)
 	router.PUT(options.BaseURL+"/sellers/:id", wrapper.PutSellersId)
+	router.GET(options.BaseURL+"/warehouse", wrapper.GetWarehouse)
 	router.POST(options.BaseURL+"/warehouse", wrapper.PostWarehouse)
 	router.GET(options.BaseURL+"/warehouse/:id/products", wrapper.GetWarehouseIdProducts)
 	router.GET(options.BaseURL+"/warehouses/:id", wrapper.GetWarehousesId)

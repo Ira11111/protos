@@ -427,6 +427,21 @@ paths:
   # WAREHOUSES ENDPOINTS
   # ========================
   /warehouse:
+    get:
+      security:
+        - bearerAuth: [ ]
+      responses:
+        401:
+          $ref: "#/components/responses/Unauthorized"
+        200:
+          description: Warehouse list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Warehouse"
+
     post:
       security:
         - bearerAuth: [ ]
