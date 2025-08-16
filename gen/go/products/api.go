@@ -264,8 +264,6 @@ func (siw *ServerInterfaceWrapper) GetCategoriesIdProducts(c *gin.Context) {
 		return
 	}
 
-	c.Set(BearerAuthScopes, []string{})
-
 	// Parameter object where we will unmarshal all parameters from the context
 	var params GetCategoriesIdProductsParams
 

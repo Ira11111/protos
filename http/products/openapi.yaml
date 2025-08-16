@@ -266,6 +266,10 @@ paths:
           $ref: "#/components/responses/ValidationFailed"
         200:
           description: Product updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
 
     delete:
       summary: Delete product
@@ -335,8 +339,6 @@ paths:
   /categories/{id}/products:
     get:
       summary: get products by category
-      security:
-        - bearerAuth: [ ]
       parameters:
         - $ref: "#/components/parameters/IdParam"
         - $ref: "#/components/parameters/LimitParam"
@@ -347,7 +349,7 @@ paths:
         400:
           $ref: "#/components/responses/ValidationFailed"
         200:
-          description: Product list in warehouse
+          description: Product list in category
           content:
             application/json:
               schema:
